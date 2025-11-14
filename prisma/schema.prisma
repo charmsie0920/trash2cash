@@ -1,11 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-//run:
-//npx prisma migrate dev --name add-appointments
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -16,27 +8,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String
-  email     String   @unique
-  password  String
-  firstName String
-  lastName  String
-  role      Role     @default(USER)
-  street    String
-  city      String
-  state     String
-  postcode  String
-  points    Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  appointments Appointment[]
+  id             Int               @id @default(autoincrement())
+  email          String            @unique
+  createdAt      DateTime          @default(now())
+  city           String
+  password       String
+  points         Int               @default(0)
+  postcode       String
+  role           Role              @default(USER)
+  state          String
+  street         String
+  updatedAt      DateTime          @updatedAt
+  username       String
+  fullName       String
+  appointments   Appointment[]
   managedCentres RecyclingCentre[] @relation("CentreAdmins")
+
   @@index([email])
   @@index([username])
+}
+
+model Appointment {
+  id        Int               @id @default(autoincrement())
+  date      DateTime
+  status    AppointmentStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  userId    Int
+  centreId  Int
+  centre    RecyclingCentre   @relation(fields: [centreId], references: [id])
+  user      User              @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([centreId])
+}
+
+model RecyclingCentre {
+  id           Int           @id @default(autoincrement())
+  name         String
+  street       String
+  city         String
+  state        String
+  postcode     String
+  adminId      Int
+  appointments Appointment[]
+  admin        User          @relation("CentreAdmins", fields: [adminId], references: [id])
 }
 
 enum Role {
@@ -45,38 +61,8 @@ enum Role {
   SUPERADMIN
 }
 
-model Appointment {
-  id            Int       @id @default(autoincrement())
-  date          DateTime
-  status        AppointmentStatus @default(PENDING)
-  createdAt     DateTime @default(now())
-  // Relations
-  userId        Int
-  user          User      @relation(fields: [userId], references: [id])
-  centreId      Int
-  centre        RecyclingCentre @relation(fields: [centreId], references: [id])
-  //items         Item[]
-
-  @@index([userId])
-  @@index([centreId])
-}
-
 enum AppointmentStatus {
   PENDING
   COMPLETED
   CANCELLED
-}
-
-
-model RecyclingCentre {
-  id        Int      @id @default(autoincrement())
-  name      String
-  street    String
-  city      String
-  state     String
-  postcode  String
-  // Relations
-  adminId    Int
-  admin      User    @relation("CentreAdmins", fields: [adminId], references: [id])
-  appointments Appointment[]
 }

@@ -1,21 +1,15 @@
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import FloatingNav from "@/components/floating-nav"
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function RecyclingGuideLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <div className="relative min-h-screen w-full bg-black/10 backdrop-blur-sm">
+      <FloatingNav />
+      <main className="min-h-screen p-6">
+        {children}
+      </main>
 
-      <SidebarInset>
-        {/* Header row containing the toggle button */}
-        <header className="flex h-12 items-center gap-2 border-b px-4">
-          <SidebarTrigger />
-        </header>
-        {/* Page content */}
-        <main className="flex-1 p-6 min-w-0">
-          {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    </div>
   );
 }

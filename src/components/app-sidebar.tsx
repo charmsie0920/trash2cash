@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, RecycleIcon, Search, Settings } from "lucide-react"
+import { Book, Calendar, GraduationCap, Home, Inbox, RecycleIcon, Search, Settings } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +14,7 @@ import {
 const items = [
   {
     title: "Home",
-    url: "",
+    url: "/dashboard",
     icon: Home,
   },
   {
@@ -28,8 +28,8 @@ const items = [
     icon: Calendar,
   },
   {
-    title: "Search",
-    url: "",
+    title: "Recycling Guide",
+    url: "recycling-guide",
     icon: Search,
   },
   {

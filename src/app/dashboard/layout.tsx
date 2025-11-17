@@ -4,7 +4,8 @@ import FloatingNav from "@/components/floating-nav"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen w-full flex bg-black/10 backdrop-blur-sm">
+    <div
+      className="min-h-screen w-full bg-no-repeat bg-cover bg-center">
       <FloatingNav />
       <main className="flex-1 min-h-screen">
         {children}

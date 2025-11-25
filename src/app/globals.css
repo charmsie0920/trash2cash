@@ -116,7 +116,24 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-black/10 backdrop-blur-sm;
+    @apply backdrop-blur-sm;
   }
+
+  /* Light mode background */
+  body:not(.dark *) {
+    @apply bg-black/10;
+  }
+
+  /* Dark mode background */
+  .dark body {
+    @apply bg-neutral-950;
+  }
+  
+  @layer base {
+  .dark * {
+    @apply text-white;
+  }
+}
 }

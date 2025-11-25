@@ -1,15 +1,19 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import FloatingNav from "@/components/floating-nav"
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="min-h-screen w-full bg-no-repeat bg-cover bg-center">
-      <FloatingNav />
-      <main className="flex-1 min-h-screen">
-        {children}
-      </main>
-    </div>
-  )
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-neutral-950 text-white">
+        
+        {/* Sidebar (fixed automatically by shadcn) */}
+        <AppSidebar />
+
+        {/* Page content */}
+        <main className="flex-1 p-6">
+          {children}
+        </main>
+      </div>
+    </SidebarProvider>
+  );
 }
